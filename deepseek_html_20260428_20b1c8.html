@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <title>Detroit | AI Production House — Horizontal Slide Gallery</title>
+    <meta name="description" content="Detroit AI Production House — exact horizontal sliding replica for talents and projects.">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ---------- RESET & BASE ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Barlow', sans-serif;
+            background: #ffffff;
+            color: #000;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ---------- LOADER (exact original style) ---------- */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.6s ease, visibility 0.6s;
+        }
+        .loader.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .logo-loader {
+            width: 70px;
+            stroke: #000;
+            fill: none;
+            animation: pulse 1.2s ease infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 0.5; transform: scale(0.96); }
+            100% { opacity: 1; transform: scale(1.04); }
+        }
+
+        /* ---------- NAVIGATION (exact copy from original) ---------- */
+        .nav-boiler {
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .nav-c {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+        }
+        .logo-nav {
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.6rem;
+            letter-spacing: -0.02em;
+            color: #000;
+        }
+        .nav-r, .nav-l {
+            display: flex;
+            gap: 1.8rem;
+            align-items: center;
+        }
+        .link-w {
+            position: relative;
+            display: inline-block;
+        }
+        .link-w .l {
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            text-decoration: none;
+            color: #000;
+        }
+        .dot-link {
+            position: absolute;
+            left: -12px;
+            top: 50%;
+            transform: translateY(-50%) scale(0.8);
+            width: 6px;
+            height: 6px;
+            background: #000;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .link-w:hover .dot-link {
+            opacity: 1;
+            transform: translateY(-50%) scale(1);
+        }
+        .menu-open {
+            background: none;
+            border: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        @media (max-width: 680px) {
+            .nav-r .link-w, .nav-l .link-w { display: none; }
+            .nav-c { justify-content: space-between; }
+        }
+
+        /* ---------- MENU OVERLAY (exact) ---------- */
+        .menu_w {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.2,0.9,0.4,1.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 2rem 2rem 3rem 2rem;
+            overflow-y: auto;
+        }
+        .menu_w.open { transform: translateX(0%); }
+        .menu-top { display: flex; justify-content: space-between; margin-bottom: 3rem; }
+        .menu-close { font-size: 0.9rem; text-transform: uppercase; cursor: pointer; }
+        .menu-mid { display: flex; flex-direction: column; gap: 2rem; margin-bottom: 3rem; }
+        .menu-link { font-size: 2rem; font-weight: 600; text-decoration: none; color: #000; border-bottom: 1px solid #eaeaea; width: fit-content; padding-bottom: 0.4rem; }
+        .menu-bottom { display: flex; gap: 2rem; }
+        .l.menu { text-decoration: none; color: #000; text-transform: uppercase; font-size: 1rem; }
+
+        /* ---------- MAIN LAYOUT & TYPOGRAPHY (exact original styling) ---------- */
+        .c.home {
+            padding: 1.8rem 0 4rem 0;
+        }
+        .div-block {
+            padding: 0 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .fat {
+            font-size: clamp(3rem, 12vw, 5rem);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+        }
+        .h1-home {
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.4;
+            color: #2c2c2c;
+            max-width: 90%;
+            margin-top: 1rem;
+        }
+        .h1-home sub {
+            font-weight: 500;
+            color: #000;
+            display: block;
+            margin-top: 0.6rem;
+            font-size: 0.85rem;
+        }
+
+        /* ---------- HORIZONTAL SLIDER (exactly like original slide behavior) ---------- */
+        .slider-section {
+            margin: 2rem 0 2.5rem 0;
+        }
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 0 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .slider-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            border-left: 4px solid #000;
+            padding-left: 0.8rem;
+        }
+        .scroll-hint {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: #777;
+            letter-spacing: 0.05em;
+        }
+        /* the actual horizontal scroll container */
+        .horizontal-scroll {
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            display: flex;
+            flex-flow: row nowrap;
+            gap: 1.2rem;
+            padding: 0 1.5rem 1rem 1.5rem;
+            scrollbar-width: none;
+        }
+        .horizontal-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        /* slide card — matches original media card proportions */
+        .slide-card {
+            flex: 0 0 auto;
+            width: 75vw;
+            max-width: 320px;
+            scroll-snap-align: start;
+            transition: transform 0.2s;
+        }
+        .media-link {
+            display: block;
+            width: 100%;
+            border-radius: 22px;
+            overflow: hidden;
+            background: #f3f3f3;
+            text-decoration: none;
+        }
+        .media-slider-home {
+            width: 100%;
+            aspect-ratio: 4 / 5;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+        .media-link:hover .media-slider-home {
+            transform: scale(1.02);
+        }
+        .tag-home-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 0.6rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        .dot {
+            width: 6px;
+            height: 6px;
+            background: #000;
+            border-radius: 50%;
+        }
+
+        /* livre blanc (white paper) - static but consistent */
+        .livre-blanc {
+            display: flex;
+            flex-direction: column;
+            background: #faf9f8;
+            border-radius: 24px;
+            overflow: hidden;
+            margin: 1rem 1.5rem 2rem 1.5rem;
+            text-decoration: none;
+            color: #000;
+        }
+        .img-livreblanc {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+        }
+        .info-book-tag {
+            padding: 1.2rem;
+        }
+        .desc-book {
+            font-weight: 400;
+            font-size: 0.85rem;
+            color: #4a4a4a;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            font-size: 0.7rem;
+            border-top: 1px solid #ececec;
+            color: #5a5a5a;
+            margin-top: 1rem;
+        }
+
+        /* fade animations matching original */
+        [op] {
+            opacity: 0;
+            animation: fadeUp 0.8s forwards;
+        }
+        [lt] {
+            opacity: 0;
+            transform: translateY(12px);
+            animation: slideUp 0.7s forwards;
+        }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } from { opacity: 0; transform: translateY(16px); } }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } from { opacity: 0; transform: translateY(20px); } }
+        .tag-home-wrap {
+            opacity: 0;
+            animation: fadeIn 0.4s forwards;
+        }
+        @keyframes fadeIn { to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+<div class="loader" id="loader">
+    <svg class="logo-loader" width="80" viewBox="0 0 1059 889" fill="none">
+        <path d="M330 280 L730 280 L730 600 L330 600 Z" stroke="currentColor" stroke-width="16" fill="none"/>
+        <circle cx="530" cy="440" r="100" stroke="currentColor" stroke-width="14" fill="none"/>
+        <path d="M200 750 L859 750" stroke="currentColor" stroke-width="18" stroke-linecap="round"/>
+    </svg>
+</div>
+
+<header class="nav-boiler">
+    <nav class="nav-c">
+        <div class="nav-r">
+            <a href="#" class="logo-nav">DETROIT</a>
+            <div class="link-w"><div class="dot-link"></div><a href="#" class="l">talents</a></div>
+            <div class="link-w"><div class="dot-link"></div><a href="#" class="l">PROJECTS</a></div>
+        </div>
+        <div class="nav-l">
+            <div class="link-w"><div class="dot-link"></div><a href="#" class="l">services</a></div>
+            <div class="link-w"><div class="dot-link"></div><a href="#" class="l">insights</a></div>
+            <div class="link-w"><div class="dot-link"></div><a href="#" class="l">contact</a></div>
+            <button class="menu-open" id="menuOpenBtn">menu</button>
+        </div>
+    </nav>
+</header>
+
+<div class="menu_w" id="mobileMenu">
+    <div class="menu-top">
+        <span class="logo-nav">DETROIT</span>
+        <div class="menu-close" id="menuCloseBtn">close</div>
+    </div>
+    <div class="menu-mid">
+        <a href="#" class="menu-link">talents</a>
+        <a href="#" class="menu-link">projects</a>
+        <a href="#" class="menu-link">Services</a>
+        <a href="#" class="menu-link">insights</a>
+        <a href="#" class="menu-link">Contact</a>
+    </div>
+    <div class="menu-bottom">
+        <a href="#" class="l menu">instagram</a>
+        <a href="#" class="l menu">linkedin</a>
+    </div>
+</div>
+
+<main>
+    <div class="c home">
+        <!-- Book / white paper section exactly as original -->
+        <div class="livre-blanc" op>
+            <img class="img-livreblanc" src="https://cdn.prod.website-files.com/691b01d8571d36d1913ba700/6942c61e21910291c3ed2f58_thumb.webp" alt="book">
+            <div class="info-book-tag">
+                <div class="text-block-2"><strong>Our recent book</strong></div>
+                <div class="desc-book">A Comparative Analysis of Carbon Impact in Production</div>
+            </div>
+        </div>
+
+        <div class="div-block">
+            <div lt class="fat">CRAFTING <br></div>
+            <div lt class="fat snd">CULTURE</div>
+            <h1 op class="h1-home">Detroit - AI Production House in Paris, Crafting Culture for Luxury Brands.<br><sub>PRINT &amp; FILM. AI. 3D. CGI.</sub></h1>
+        </div>
+
+        <!-- TALENTS HORIZONTAL SLIDER (exact slide behavior) -->
+        <div class="slider-section">
+            <div class="slider-header">
+                <div class="slider-title">— Talents</div>
+                <div class="scroll-hint">← swipe →</div>
+            </div>
+            <div class="horizontal-scroll" id="talentsSlider">
+                <!-- each slide-card mirrors the original artist_item structure -->
+                <div class="slide-card"><div class="tag-home-wrap"><div class="dot"></div><div>Ulises</div></div><a href="#" class="media-link"><img class="media-slider-home" src="https://cdn.prod.website-files.com/691b01d8571d36d1913ba700/6940243efac5d1019be37b54_491464035_17963966777872918_1354379540431496285_n..webp" loading="lazy" alt="Ulises"></a></div>
+                <div class="slide-card"><div class="tag-home-wrap"><div class="dot"></div><div>Squad</div></div><a href="#" class="media-link"><img class="media-slider-home" src="https://cdn.prod.website-files.com/691b01d8571d36d1913ba700/69ef4e4660481169260b81c1_2.png" loading="lazy" alt="Squad"></a></div>
+                <div class="slide-card"><div class="tag-home-wrap"><div class="dot"></div><div>Alex</div></div><a href="#" class="media-link"><img class="media-slider-home" src="https://cdn.prod.website-files.com/691b01d8571d36d1913ba700/69394e60ac339c460caee753_ramoneur-Denoise%2Bgrain.webp" loading="lazy" alt="Alex"></a></div>
+                <div class="slide-card"><div class="tag-home-wrap"><div class="dot"></div><div>Alys Thomas</div></div><a href="#" class="media-link"><img class="media-slider-home" src="https://cdn.prod.website-files.com/691b01d8571d36d1913ba700/6939595020390d212edcf418_Love%2C%20Fall%202023.webp" loading="lazy" alt="Alys Thomas"></a></div>
+                <div class="slide-card"><div class="tag-home-wrap"><div class="dot"></div><div>Charlie Faye Mather</div></div><a href="#" class="media-link"><img class="media-slider-home" src="https://cdn.prod.website-files.com/691b01d8571d36d1913ba700/693fdce54c2f0b2320c650e9_WhatsApp%20Image%202025-12-03%20at%2009.34.25.webp" loading="lazy" alt="Charlie"></a></div>
+                <div class="slide-card"><div class="tag-home-wrap"><div class="dot"></div><div>Arnaud</div></div><a href="#" class="media-link"><img class="media-slider-home" src="https://cdn.prod.website-files.com/691b01d8571d36d1913ba700/693fe15aa4743080d7ff1881_CHANEL_2%202.webp" loading="lazy" alt="Arnaud"></a></div>
+                <div class="slide-card"><div class="tag-home-wrap"><div class="dot"></div><div>Chelios</div></div><a href="#" class="media-link"><img class="media-slider-home" src="https://cdn.prod.website-files.com/691b01d8571d36d1913ba700/696798047be9f83c1162abf4_Capture%20d%E2%80%99e%CC%81cran%202026-01-05%20a%CC%80%2015.03.56.png" loading="lazy" alt="Chelios"></a></div>
+                <div class="slide-card"><div class="tag-home-wrap"><div class="dot"></div><div>Floow</div></div><a href="#" class="media-link"><img class="media-slider-home" src="https://cdn.prod.website-files.com/691b01d8571d36d1913ba700/6940138f6b1ed9fbc74e5a82_-imagine%20someone%20looking%20up%23ai%20%23aiart%20%23midjourney%20%23digitalart%20%23aiartwork%20%23aigenerated%20%23minimali.webp" loading="lazy" alt="Floow"></a></div>
+                <div class="slide-card"><div class="tag-home-wrap"><div class="dot"></div><div>Laura Baiardini</div></div><a href="#" class="media-link"><img class="media-slider-home" src="https://cdn.prod.website-files.com/691b01d8571d36d1913ba700/694018bae7315e57e1d2f43b_baiardiny_None_686d831a-00ef-413f-acdf-4c64ba286637.webp" loading="lazy" alt="Laura"></a></div>
+                <div class="slide-card"><div class="tag-home-wrap"><div class="dot"></div><div>Leo Cannone</div></div><a href="#" class="media-link"><img class="media-slider-home" src="https://cdn.prod.website-files.com/691b01d8571d36d1913ba700/69660576ada44cf40a888e25_Capture%20d%E2%80%99e%CC%81cran%202026-01-13%20a%CC%80%2009.42.16.webp" loading="lazy" alt="Leo"></a></div>
+                <div class="slide-card"><div class="tag-home-wrap"><div class="dot"></div><div>Noah Pharrel</div></div><a href="#" class="media-link"><img class="media-slider-home" src="https://cdn.prod.website-files.com/691b01d8571d36d1913ba700/696ea1cc673604566a423d38_new.jpg" loading="lazy" alt="Noah"></a></div>
+                <div class="slide-card"><div class="tag-home-wrap"><div class="dot"></div><div>Ojaï</div></div><a href="#" class="media-link"><img class="media-slider-home" src="https://cdn.prod.website-files.com/691b01d8571d36d1913ba700/69401b46ea2b1ee69ea62f0f_OJAI_VISUAL_01.webp" loading="lazy" alt="Ojaï"></a></div>
+            </div>
+        </div>
+
+        <!-- PROJECTS HORIZONTAL SLIDER (exact slide behavior) -->
+        <div class="slider-section">
+            <div class="slider-header">
+                <div class="slider-title">— Projects</div>
+                <div class="scroll-hint">← swipe →</div>
+            </div>
+            <div class="horizontal-scroll" id="projectsSlider">
+                <div class="slide-card"><div class="tag-home-wrap"><div class="dot"></div><div>DOMA</div></div><a href="#" class="media-link"><img class="media-slider-home" src="https://cdn.prod.website-files.com/691b01d8571d36d1913ba700/69e5eee0fe05b4f6089d693f_2000X2000_IMAGE_07_Bouteille%20dans%20la%20neige%202017.jpg" loading="lazy" alt="DOMA"></a></div>
+                <div class="slide-card"><div class="tag-home-wrap"><div class="dot"></div><div>Dom Perignon Winter</div></div><a href="#" class="media-link"><img class="media-slider-home" src="https://cdn.prod.website-files.com/691b01d8571d36d1913ba700/695e72b28f0cddc9ecaa8b00_IMG%2010_2000X2000.webp" loading="lazy" alt="Dom Perignon Winter"></a></div>
+                <div class="slide-card"><div class="tag-home-wrap"><div class="dot"></div><div>Taittinger II</div></div><a href="#" class="media-link"><img class="media-slider-home" src="https://cdn.prod.website-files.com/691b01d8571d36d1913ba700/6966196bc7e3cc43ec681f81_PRINT_TAITTINGER_SPARKLAND_BALLON%20-%20Grande.webp" loading="lazy" alt="Taittinger II"></a></div>
+                <div class="slide-card"><div class="tag-home-wrap"><div class="dot"></div><div>Taittinger I</div></div><a href="#" class="media-link"><img class="media-slider-home" src="https://cdn.prod.website-files.com/691b01d8571d36d1913ba700/6966146c167e7122d2bb4606_ALICE.webp" loading="lazy" alt="Taittinger I"></a></div>
+                <div class="slide-card"><div class="tag-home-wrap"><div class="dot"></div><div>Paris berlin</div></div><a href="#" class="media-link"><img class="media-slider-home" src="https://cdn.prod.website-files.com/691b01d8571d36d1913ba700/69787a93da166ecf06ae0bee_paris-berlin-wws-02%20-%20Grande.jpeg" loading="lazy" alt="Paris berlin"></a></div>
+                <div class="slide-card"><div class="tag-home-wrap"><div class="dot"></div><div>Marly garden</div></div><a href="#" class="media-link"><img class="media-slider-home" src="https://cdn.prod.website-files.com/691b01d8571d36d1913ba700/695cea5dee50c0fcbe0dc48b_Marly_detroit.webp" loading="lazy" alt="Marly garden"></a></div>
+                <div class="slide-card"><div class="tag-home-wrap"><div class="dot"></div><div>La Mer</div></div><a href="#" class="media-link"><img class="media-slider-home" src="https://cdn.prod.website-files.com/691b01d8571d36d1913ba700/696607faaf0e2a92df897e24_01.webp" loading="lazy" alt="La Mer"></a></div>
+                <div class="slide-card"><div class="tag-home-wrap"><div class="dot"></div><div>Louis Vuitton Grasse</div></div><a href="#" class="media-link"><img class="media-slider-home" src="https://cdn.prod.website-files.com/691b01d8571d36d1913ba700/695cf191d49301362eddb6a5_LAUNCH%20copie33.webp" loading="lazy" alt="LV Grasse"></a></div>
+                <div class="slide-card"><div class="tag-home-wrap"><div class="dot"></div><div>Louis Vuitton Asnieres</div></div><a href="#" class="media-link"><img class="media-slider-home" src="https://cdn.prod.website-files.com/691b01d8571d36d1913ba700/696789bb4c851530ed6a1461_KV2%20-%20Grande.webp" loading="lazy" alt="LV Asnieres"></a></div>
+                <div class="slide-card"><div class="tag-home-wrap"><div class="dot"></div><div>GOOGLE</div></div><a href="#" class="media-link"><img class="media-slider-home" src="https://cdn.prod.website-files.com/691b01d8571d36d1913ba700/69677a1e7e77b3f6c29a9dac_1kv.webp" loading="lazy" alt="Google"></a></div>
+                <div class="slide-card"><div class="tag-home-wrap"><div class="dot"></div><div>Dom Perignon Summer</div></div><a href="#" class="media-link"><img class="media-slider-home" src="https://cdn.prod.website-files.com/691b01d8571d36d1913ba700/695e72b28f0cddc9ecaa8b00_IMG%2010_2000X2000.webp" loading="lazy" alt="DP Summer"></a></div>
+                <div class="slide-card"><div class="tag-home-wrap"><div class="dot"></div><div>Hermes</div></div><a href="#" class="media-link"><img class="media-slider-home" src="https://cdn.prod.website-files.com/691b01d8571d36d1913ba700/695e2d92967b972d96215ad9_6.Medium-V1.webp" loading="lazy" alt="Hermes"></a></div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <p>Detroit — AI Production House, Paris<br>exact horizontal sliding gallery | swipe through talents & projects</p>
+    <p style="margin-top: 0.8rem;">© Detroit Paris — Full sliding replica</p>
+</footer>
+
+<script>
+    // loader
+    window.addEventListener('load', () => {
+        const loader = document.getElementById('loader');
+        if (loader) {
+            loader.classList.add('fade-out');
+            setTimeout(() => loader.style.display = 'none', 700);
+        }
+        // small fade for tags
+        document.querySelectorAll('.tag-home-wrap').forEach((tag, i) => {
+            tag.style.animationDelay = `${i * 0.03 + 0.05}s`;
+            tag.style.opacity = '1';
+        });
+    });
+
+    // mobile menu
+    const menuBtn = document.getElementById('menuOpenBtn');
+    const closeBtn = document.getElementById('menuCloseBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (menuBtn && mobileMenu) {
+        menuBtn.onclick = (e) => {
+            e.preventDefault();
+            mobileMenu.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        };
+        closeBtn.onclick = () => {
+            mobileMenu.classList.remove('open');
+            document.body.style.overflow = '';
+        };
+        document.querySelectorAll('.menu-link, .menu-bottom .l').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                document.body.style.overflow = '';
+            });
+        });
+    }
+
+    // Horizontal scroll with mouse wheel support (like original)
+    const scrollers = document.querySelectorAll('.horizontal-scroll');
+    scrollers.forEach(scroller => {
+        scroller.addEventListener('wheel', (e) => {
+            if (e.deltaY !== 0 && scroller.scrollWidth > scroller.clientWidth) {
+                e.preventDefault();
+                scroller.scrollLeft += e.deltaY;
+            }
+        }, { passive: false });
+    });
+
+    // prevent default for all dummy links
+    document.querySelectorAll('a[href="#"]').forEach(link => {
+        link.addEventListener('click', (e) => e.preventDefault());
+    });
+
+    // animation observer for repeat fade-ins
+    const animated = document.querySelectorAll('[op], [lt]');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animationPlayState = 'running';
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    animated.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
