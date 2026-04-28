@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <title>Arjun & Gowri | Wedding - framememora</title>
+    <meta name="description" content="Arjun and Gowri - Join us in celebrating our wedding. Infinite love, timeless gallery.">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Barlow', sans-serif;
+            background: #fefaf5;
+            color: #2e241f;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .fat, .hero-subtitle {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Loader */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fefaf5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.6s ease, visibility 0.6s;
+        }
+        .loader.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .logo-loader {
+            width: 70px;
+            stroke: #c6a27a;
+            fill: none;
+            animation: pulse 1.2s ease infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 0.5; transform: scale(0.96); }
+            100% { opacity: 1; transform: scale(1.04); }
+        }
+
+        /* Navigation */
+        .nav-boiler {
+            position: sticky;
+            top: 0;
+            background: rgba(254, 250, 245, 0.96);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            border-bottom: 1px solid rgba(198, 162, 122, 0.2);
+        }
+        .nav-c {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+        }
+        .logo-nav {
+            text-decoration: none;
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 1.5rem;
+            letter-spacing: 0.03em;
+            background: linear-gradient(135deg, #d4af37 0%, #c9a03d 40%, #b88b2c 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            transition: opacity 0.2s;
+        }
+        .logo-nav:hover { opacity: 0.85; }
+        .nav-r, .nav-l {
+            display: flex;
+            gap: 1.8rem;
+            align-items: center;
+        }
+        .link-w {
+            position: relative;
+            display: inline-block;
+        }
+        .link-w .l {
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            text-decoration: none;
+            color: #3a2a21;
+        }
+        .dot-link {
+            position: absolute;
+            left: -12px;
+            top: 50%;
+            transform: translateY(-50%) scale(0.8);
+            width: 6px;
+            height: 6px;
+            background: #d4af7a;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .link-w:hover .dot-link {
+            opacity: 1;
+            transform: translateY(-50%) scale(1);
+        }
+        .menu-open {
+            background: none;
+            border: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: inherit;
+            color: #3a2a21;
+        }
+        @media (max-width: 680px) {
+            .nav-r .link-w, .nav-l .link-w { display: none; }
+            .nav-c { justify-content: space-between; }
+            .logo-nav { font-size: 1.3rem; }
+        }
+
+        /* Menu overlay */
+        .menu_w {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff9f3;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.2,0.9,0.4,1.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 2rem 2rem 3rem 2rem;
+            overflow-y: auto;
+        }
+        .menu_w.open { transform: translateX(0%); }
+        .menu-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; }
+        .menu-logo {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 1.6rem;
+            background: linear-gradient(135deg, #d4af37, #b88b2c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .menu-close { font-size: 0.9rem; text-transform: uppercase; cursor: pointer; color: #8b5a2b; }
+        .menu-mid { display: flex; flex-direction: column; gap: 2rem; margin-bottom: 3rem; }
+        .menu-link { font-size: 2rem; font-weight: 500; font-family: 'Playfair Display', serif; text-decoration: none; color: #2e241f; border-bottom: 1px solid #ecd9c2; width: fit-content; padding-bottom: 0.4rem; }
+        .menu-bottom { display: flex; gap: 2rem; }
+        .l.menu { text-decoration: none; color: #8b5a2b; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.05em; }
+
+        /* Main layout */
+        .c.home { padding: 1.8rem 0 4rem 0; }
+        .div-block { padding: 0 1.5rem; margin-bottom: 3rem; text-align: center; }
+        .fat { font-size: clamp(2.8rem, 10vw, 4.8rem); font-weight: 600; line-height: 1.1; letter-spacing: -0.01em; color: #5c3e2b; }
+        .fat.snd { margin-top: -0.2rem; }
+        .h1-home { font-size: 1rem; font-weight: 400; line-height: 1.5; color: #5a4a3a; max-width: 90%; margin: 1rem auto 0; font-style: italic; }
+        .date-highlight { font-family: 'Playfair Display', serif; font-size: 1.2rem; letter-spacing: 0.1em; color: #b47c48; margin-top: 0.5rem; }
+
+        /* Carousel styles */
+        .carousel-section { margin: 2rem 0 3rem 0; }
+        .carousel-header { display: flex; justify-content: space-between; align-items: baseline; padding: 0 1.5rem; margin-bottom: 1rem; }
+        .carousel-title { font-size: 1.6rem; font-weight: 500; font-family: 'Playfair Display', serif; letter-spacing: -0.01em; border-left: 4px solid #d4af7a; padding-left: 0.8rem; color: #3a2a21; }
+        .carousel-hint { font-size: 0.7rem; text-transform: uppercase; color: #b48c64; letter-spacing: 0.05em; }
+        .carousel-container { position: relative; width: 100%; overflow: hidden; touch-action: pan-y pinch-zoom; }
+        .carousel-track { display: flex; will-change: transform; transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); cursor: grab; }
+        .carousel-track:active { cursor: grabbing; }
+        .carousel-slide { flex: 0 0 auto; width: 75vw; max-width: 340px; margin-right: 1.2rem; }
+        .media-link { display: block; width: 100%; border-radius: 28px; overflow: hidden; background: #f3ede7; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.05); cursor: pointer; }
+        .media-slider-home { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block; transition: transform 0.4s ease; pointer-events: none; }
+        .media-link:hover .media-slider-home { transform: scale(1.02); }
+        .tag-home-wrap { display: flex; align-items: center; gap: 8px; margin-bottom: 0.6rem; font-size: 0.85rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.03em; color: #a5713c; }
+        .dot { width: 6px; height: 6px; background: #d4af7a; border-radius: 50%; }
+
+        /* Story card */
+        .story-card {
+            display: flex;
+            flex-direction: column;
+            background: #fff6ef;
+            border-radius: 28px;
+            overflow: hidden;
+            margin: 1rem 1.5rem 2rem 1.5rem;
+            text-decoration: none;
+            color: #2e241f;
+            border: 1px solid #f0e2d4;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .story-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+        .story-info { padding: 1.5rem; text-align: center; }
+        .story-title { font-size: 1.4rem; font-family: 'Playfair Display', serif; font-weight: 600; margin-bottom: 0.4rem; }
+        .story-desc { font-weight: 400; font-size: 0.9rem; color: #6b4e34; line-height: 1.4; }
+
+        footer { text-align: center; padding: 2rem 1.5rem; font-size: 0.75rem; border-top: 1px solid #f0e2d4; color: #a17956; margin-top: 2rem; }
+
+        /* Fullscreen modal */
+        .fullscreen-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(30, 20, 15, 0.94);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.2s, opacity 0.2s ease;
+            backdrop-filter: blur(6px);
+        }
+        .fullscreen-modal.active { visibility: visible; opacity: 1; }
+        .modal-image { max-width: 90vw; max-height: 85vh; object-fit: contain; border-radius: 16px; box-shadow: 0 20px 35px rgba(0,0,0,0.3); }
+        .close-modal {
+            position: absolute;
+            top: 24px;
+            right: 28px;
+            font-size: 2rem;
+            font-weight: 300;
+            color: #fae3c6;
+            background: rgba(0,0,0,0.4);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-family: monospace;
+        }
+        @media (max-width: 680px) { .close-modal { top: 16px; right: 16px; width: 40px; height: 40px; font-size: 1.8rem; } }
+
+        /* animations */
+        [op] { opacity: 0; animation: fadeUp 0.8s forwards; }
+        [lt] { opacity: 0; transform: translateY(12px); animation: slideUp 0.7s forwards; }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } from { opacity: 0; transform: translateY(16px); } }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } from { opacity: 0; transform: translateY(20px); } }
+        .tag-home-wrap { opacity: 0; animation: fadeIn 0.4s forwards; }
+        @keyframes fadeIn { to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+<div class="loader" id="loader">
+    <svg class="logo-loader" width="80" viewBox="0 0 1059 889" fill="none">
+        <path d="M330 280 L730 280 L730 600 L330 600 Z" stroke="currentColor" stroke-width="16" fill="none"/>
+        <circle cx="530" cy="440" r="100" stroke="currentColor" stroke-width="14" fill="none"/>
+        <path d="M200 750 L859 750" stroke="currentColor" stroke-width="18" stroke-linecap="round"/>
+        <text x="420" y="500" font-family="Playfair Display" font-size="60" fill="#c6a27a" stroke="none">❤</text>
+    </svg>
+</div>
+
+<div id="fullscreenModal" class="fullscreen-modal">
+    <span class="close-modal" id="closeModalBtn">✕</span>
+    <img id="fullscreenImage" class="modal-image" src="" alt="Wedding memory">
+</div>
+
+<header class="nav-boiler">
+    <nav class="nav-c">
+        <div class="nav-r">
+            <a href="#" class="logo-nav">framememora</a>
+            <div class="link-w"><div class="dot-link"></div><a href="#" class="l">moments</a></div>
+            <div class="link-w"><div class="dot-link"></div><a href="#" class="l">gallery</a></div>
+        </div>
+        <div class="nav-l">
+            <div class="link-w"><div class="dot-link"></div><a href="#" class="l">story</a></div>
+            <div class="link-w"><div class="dot-link"></div><a href="#" class="l">details</a></div>
+            <div class="link-w"><div class="dot-link"></div><a href="#" class="l">rsvp</a></div>
+            <button class="menu-open" id="menuOpenBtn">menu</button>
+        </div>
+    </nav>
+</header>
+
+<div class="menu_w" id="mobileMenu">
+    <div class="menu-top">
+        <span class="menu-logo">framememora</span>
+        <div class="menu-close" id="menuCloseBtn">close</div>
+    </div>
+    <div class="menu-mid">
+        <a href="#" class="menu-link">Moments</a>
+        <a href="#" class="menu-link">Gallery</a>
+        <a href="#" class="menu-link">Our Story</a>
+        <a href="#" class="menu-link">Wedding Details</a>
+        <a href="#" class="menu-link">RSVP</a>
+    </div>
+    <div class="menu-bottom">
+        <a href="#" class="l menu">#ArjunAndGowri</a>
+        <a href="#" class="l menu">share love</a>
+    </div>
+</div>
+
+<main>
+    <div class="c home">
+        <div class="story-card" id="storyCardTrigger">
+            <img class="story-img" src="https://images.pexels.com/photos/2253870/pexels-photo-2253870.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="couple story" loading="lazy">
+            <div class="story-info">
+                <div class="story-title">Arjun & Gowri</div>
+                <div class="story-desc">December 5th, 2026 · Chennai, India</div>
+                <div class="story-desc" style="margin-top: 8px;">A timeless love woven with tradition and joy. Join us as we begin forever.</div>
+            </div>
+        </div>
+
+        <div class="div-block">
+            <div lt class="fat">ARJUN & GOWRI</div>
+            <div lt class="fat snd">ARE GETTING MARRIED</div>
+            <h1 op class="h1-home">Celebrating a journey of love, laughter, and a lifetime together.<br><sub class="date-highlight">05 . 12 . 2026</sub></h1>
+        </div>
+
+        <div class="carousel-section">
+            <div class="carousel-header">
+                <div class="carousel-title">— Precious Moments</div>
+                <div class="carousel-hint">← swipe →</div>
+            </div>
+            <div class="carousel-container">
+                <div class="carousel-track" id="momentsTrack"></div>
+            </div>
+        </div>
+
+        <div class="carousel-section">
+            <div class="carousel-header">
+                <div class="carousel-title">— Wedding Gallery</div>
+                <div class="carousel-hint">← swipe →</div>
+            </div>
+            <div class="carousel-container">
+                <div class="carousel-track" id="galleryTrack"></div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <p>Arjun & Gowri — Forever begins under the southern skies</p>
+    <p style="margin-top: 0.5rem;">#ArjunAndGowri | RSVP by October 15th, 2026</p>
+</footer>
+
+<script>
+    // ---------- IMAGE DATA ----------
+    const momentsData = [
+        { name: "First Look", img: "https://images.pexels.com/photos/2253870/pexels-photo-2253870.jpeg?auto=compress&cs=tinysrgb&w=800" },
+        { name: "Engagement", img: "https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg?auto=compress&cs=tinysrgb&w=800" },
+        { name: "Sunset Vows", img: "https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg?auto=compress&cs=tinysrgb&w=800" },
+        { name: "Romantic Picnic", img: "https://images.pexels.com/photos/1288482/pexels-photo-1288482.jpeg?auto=compress&cs=tinysrgb&w=800" },
+        { name: "Dancing", img: "https://images.pexels.com/photos/1468379/pexels-photo-1468379.jpeg?auto=compress&cs=tinysrgb&w=800" },
+        { name: "Candid Laugh", img: "https://images.pexels.com/photos/2253871/pexels-photo-2253871.jpeg?auto=compress&cs=tinysrgb&w=800" },
+        { name: "Ring Exchange", img: "https://images.pexels.com/photos/1927258/pexels-photo-1927258.jpeg?auto=compress&cs=tinysrgb&w=800" },
+        { name: "Bridal Portrait", img: "https://images.pexels.com/photos/1024991/pexels-photo-1024991.jpeg?auto=compress&cs=tinysrgb&w=800" }
+    ];
+
+    const galleryData = [
+        { name: "Venue Details", img: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=800" },
+        { name: "Floral Arrangements", img: "https://images.pexels.com/photos/1323330/pexels-photo-1323330.jpeg?auto=compress&cs=tinysrgb&w=800" },
+        { name: "Table Setting", img: "https://images.pexels.com/photos/847393/pexels-photo-847393.jpeg?auto=compress&cs=tinysrgb&w=800" },
+        { name: "Wedding Cake", img: "https://images.pexels.com/photos/291821/pexels-photo-291821.jpeg?auto=compress&cs=tinysrgb&w=800" },
+        { name: "Musicians", img: "https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg?auto=compress&cs=tinysrgb&w=800" },
+        { name: "Golden Hour", img: "https://images.pexels.com/photos/6304253/pexels-photo-6304253.jpeg?auto=compress&cs=tinysrgb&w=800" },
+        { name: "Reception", img: "https://images.pexels.com/photos/317182/pexels-photo-317182.jpeg?auto=compress&cs=tinysrgb&w=800" },
+        { name: "Fireworks", img: "https://images.pexels.com/photos/1024996/pexels-photo-1024996.jpeg?auto=compress&cs=tinysrgb&w=800" }
+    ];
+
+    function buildSlides(data) {
+        return data.map(item => `
+            <div class="carousel-slide">
+                <div class="tag-home-wrap"><div class="dot"></div><div>${item.name}</div></div>
+                <a href="#" class="media-link" data-img="${item.img}">
+                    <img class="media-slider-home" src="${item.img}" loading="lazy" alt="${item.name}">
+                </a>
+            </div>
+        `).join('');
+    }
+
+    // Smooth Infinite Carousel Class - no visible reset jump
+    class SmoothInfiniteCarousel {
+        constructor(trackElement, itemsData) {
+            this.track = trackElement;
+            this.itemsData = itemsData;
+            this.slideWidth = 0;
+            this.totalSlides = itemsData.length;
+            this.currentIndex = 1; // start at first real slide (after clone)
+            this.isDragging = false;
+            this.startX = 0;
+            this.currentTranslate = 0;
+            this.initialTranslate = 0;
+            this.transitioning = false;
+            this.init();
+        }
+
+        init() {
+            this.track.innerHTML = buildSlides(this.itemsData);
+            // clone first and last for infinite effect
+            const firstClone = this.track.children[0].cloneNode(true);
+            const lastClone = this.track.children[this.totalSlides - 1].cloneNode(true);
+            this.track.appendChild(firstClone);
+            this.track.insertBefore(lastClone, this.track.firstChild);
+            this.totalCloned = this.track.children.length;
+            this.updateDimensions();
+            this.setPosition(1, false); // go to first real slide
+            this.bindEvents();
+        }
+
+        bindEvents() {
+            this.track.addEventListener('mousedown', this.onDragStart.bind(this));
+            this.track.addEventListener('touchstart', this.onDragStart.bind(this));
+            window.addEventListener('mousemove', this.onDragMove.bind(this));
+            window.addEventListener('mouseup', this.onDragEnd.bind(this));
+            window.addEventListener('touchmove', this.onDragMove.bind(this));
+            window.addEventListener('touchend', this.onDragEnd.bind(this));
+            window.addEventListener('resize', () => { this.updateDimensions(); this.setPosition(this.currentIndex, false); });
+            // fullscreen click delegation
+            this.track.addEventListener('click', (e) => {
+                const link = e.target.closest('.media-link');
+                if (link) {
+                    e.preventDefault();
+                    const imgSrc = link.getAttribute('data-img');
+                    if (imgSrc) openFullscreen(imgSrc);
+                }
+            });
+        }
+
+        updateDimensions() {
+            if (this.track.children.length === 0) return;
+            const firstSlide = this.track.children[0];
+            const style = window.getComputedStyle(firstSlide);
+            const marginRight = parseFloat(style.marginRight) || 0;
+            this.slideWidth = firstSlide.offsetWidth + marginRight;
+        }
+
+        setPosition(index, animate = true) {
+            if (animate) {
+                this.track.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                this.transitioning = true;
+                const onEnd = () => {
+                    this.transitioning = false;
+                    this.track.removeEventListener('transitionend', onEnd);
+                    this.handleInfiniteReset();
+                };
+                this.track.addEventListener('transitionend', onEnd, { once: true });
+            } else {
+                this.track.style.transition = 'none';
+            }
+            this.currentTranslate = -this.slideWidth * index;
+            this.track.style.transform = `translate3d(${this.currentTranslate}px, 0, 0)`;
+            this.currentIndex = index;
+        }
+
+        handleInfiniteReset() {
+            // if at cloned first (index 0) jump to last real slide
+            if (this.currentIndex <= 0) {
+                const newIndex = this.totalSlides;
+                this.currentTranslate = -this.slideWidth * newIndex;
+                this.track.style.transition = 'none';
+                this.track.style.transform = `translate3d(${this.currentTranslate}px, 0, 0)`;
+                this.currentIndex = newIndex;
+            } 
+            // if at cloned last (index totalSlides+1) jump to first real slide
+            else if (this.currentIndex >= this.totalSlides + 1) {
+                const newIndex = 1;
+                this.currentTranslate = -this.slideWidth * newIndex;
+                this.track.style.transition = 'none';
+                this.track.style.transform = `translate3d(${this.currentTranslate}px, 0, 0)`;
+                this.currentIndex = newIndex;
+            }
+        }
+
+        goNext() {
+            if (this.transitioning) return;
+            this.setPosition(this.currentIndex + 1, true);
+        }
+
+        goPrev() {
+            if (this.transitioning) return;
+            this.setPosition(this.currentIndex - 1, true);
+        }
+
+        onDragStart(e) {
+            if (this.transitioning) return;
+            e.preventDefault();
+            this.isDragging = true;
+            this.startX = this.getClientX(e);
+            this.initialTranslate = this.currentTranslate;
+            this.track.style.transition = 'none';
+            this.track.style.cursor = 'grabbing';
+        }
+
+        onDragMove(e) {
+            if (!this.isDragging) return;
+            const currentX = this.getClientX(e);
+            const deltaX = currentX - this.startX;
+            let newTranslate = this.initialTranslate + deltaX;
+            // add resistance at edges to feel natural but allow overshoot
+            const maxLeft = -this.slideWidth * (this.totalCloned - 1);
+            const maxRight = 0;
+            if (newTranslate > maxRight) newTranslate = maxRight + (newTranslate - maxRight) * 0.3;
+            if (newTranslate < maxLeft) newTranslate = maxLeft + (newTranslate - maxLeft) * 0.3;
+            this.track.style.transform = `translate3d(${newTranslate}px, 0, 0)`;
+            this.currentTranslate = newTranslate;
+        }
+
+        onDragEnd(e) {
+            if (!this.isDragging) return;
+            this.isDragging = false;
+            this.track.style.cursor = 'grab';
+            const endX = this.getClientX(e);
+            const deltaX = endX - this.startX;
+            const threshold = 30;
+            let newIndex = this.currentIndex;
+            // snap to nearest slide based on current translate
+            const rawIndex = -this.currentTranslate / this.slideWidth;
+            let snappedIndex = Math.round(rawIndex);
+            if (Math.abs(deltaX) > threshold) {
+                if (deltaX < 0) snappedIndex = Math.ceil(rawIndex);
+                else snappedIndex = Math.floor(rawIndex);
+            }
+            newIndex = Math.min(Math.max(snappedIndex, 0), this.totalCloned - 1);
+            this.setPosition(newIndex, true);
+        }
+
+        getClientX(e) {
+            return e.touches ? e.touches[0].clientX : e.clientX;
+        }
+    }
+
+    // Initialize carousels
+    window.addEventListener('DOMContentLoaded', () => {
+        const momentsTrack = document.getElementById('momentsTrack');
+        const galleryTrack = document.getElementById('galleryTrack');
+        if (momentsTrack) new SmoothInfiniteCarousel(momentsTrack, momentsData);
+        if (galleryTrack) new SmoothInfiniteCarousel(galleryTrack, galleryData);
+    });
+
+    // Fullscreen logic
+    const modal = document.getElementById('fullscreenModal');
+    const modalImg = document.getElementById('fullscreenImage');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    function openFullscreen(url) { if (!url) return; modalImg.src = url; modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
+    function closeFullscreen() { modal.classList.remove('active'); document.body.style.overflow = ''; setTimeout(() => { if (!modal.classList.contains('active')) modalImg.src = ''; }, 300); }
+    closeModalBtn.addEventListener('click', closeFullscreen);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeFullscreen(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) closeFullscreen(); });
+    const storyCard = document.getElementById('storyCardTrigger');
+    if (storyCard) storyCard.addEventListener('click', () => { const img = storyCard.querySelector('.story-img'); if (img && img.src) openFullscreen(img.src); });
+
+    // Mobile menu
+    const menuBtn = document.getElementById('menuOpenBtn'), closeBtn = document.getElementById('menuCloseBtn'), mobileMenu = document.getElementById('mobileMenu');
+    if (menuBtn && mobileMenu) {
+        menuBtn.onclick = (e) => { e.preventDefault(); mobileMenu.classList.add('open'); document.body.style.overflow = 'hidden'; };
+        closeBtn.onclick = () => { mobileMenu.classList.remove('open'); document.body.style.overflow = ''; };
+        document.querySelectorAll('.menu-link, .menu-bottom .l').forEach(link => link.addEventListener('click', () => { mobileMenu.classList.remove('open'); document.body.style.overflow = ''; }));
+    }
+
+    window.addEventListener('load', () => {
+        const loader = document.getElementById('loader');
+        if (loader) { loader.classList.add('fade-out'); setTimeout(() => loader.style.display = 'none', 700); }
+        document.querySelectorAll('.tag-home-wrap').forEach((tag, i) => { tag.style.animationDelay = `${i * 0.03 + 0.05}s`; tag.style.opacity = '1'; });
+    });
+    document.querySelectorAll('a[href="#"]:not(.media-link)').forEach(link => link.addEventListener('click', (e) => e.preventDefault()));
+</script>
+</body>
+</html>
